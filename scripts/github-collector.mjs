@@ -7,11 +7,11 @@ async function credentials(){
  endpoint.searchParams.set('audience',site);
  const r=await fetch(endpoint,{headers:{Authorization:`Bearer ${process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN}`},signal:AbortSignal.timeout(10000),redirect:'error'});
  if(!r.ok)throw Error(`OIDC HTTP ${r.status}`);
- const {value}=await r.json();if(!value)throw Error('Missing OIDC credential');return {Authorization:`Bearer ${value}`};
+ const {value}=await r.json();if(!value)throw Error('Missing OIDC credential');const c=JSON.parse(Buffer.from(value.split('.')[1],'base64url').toString()); console.log(JSON.stringify({identity:Object.fromEntries(['iss','aud','sub','repository','repository_id','repository_owner_id','ref','workflow_ref','event_name','iat','exp','nbf'].map(k=>[k,c[k]]))}));return {Authorization:`Bearer ${value}`};
 }
 async function request(path,headers,method='GET'){
  const r=await fetch(site+path,{method,headers,redirect:'error',signal:AbortSignal.timeout(110000)});
- if(!r.ok)throw Error(`${path} HTTP ${r.status}`);return r.json();
+ if(!r.ok){const e=Error(`${path} HTTP ${r.status}`);e.status=r.status;throw e;}return r.json();
 }
 let failed=0;
 for(let i=0;i<5;i++){
@@ -23,7 +23,7 @@ for(let i=0;i<5;i++){
   const scan=i===0?await request('/api/scan',headers):null;
   if(scan&&scan.logging?.state!=='saved')throw Error('Scan was not persisted');
   console.log(JSON.stringify({at:new Date().toISOString(),tick:i+1,collection,savedSnapshots:scan?.logging?.snapshots??0}));
- }catch(e){failed++;console.error(JSON.stringify({at:new Date().toISOString(),tick:i+1,error:e.message}));}
+ }catch(e){failed++;console.error(JSON.stringify({at:new Date().toISOString(),tick:i+1,error:e.message}));if(e.status===401||e.status===403)break;}
  if(i<4)await sleep(Math.max(0,60000-(Date.now()-start)));
 }
 if(failed)process.exitCode=1;
