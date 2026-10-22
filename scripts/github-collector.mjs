@@ -13,9 +13,11 @@ async function request(path,headers,method='GET'){
  const r=await fetch(site+path,{method,headers,redirect:'error',signal:AbortSignal.timeout(110000)});
  if(!r.ok){const e=Error(`${path} HTTP ${r.status}`);e.status=r.status;throw e;}return r.json();
 }
+const ticks=Math.min(60,Math.max(1,Number(process.env.COLLECTOR_TICKS)||5));
 let failed=0,scanSaved=false;
-for(let i=0;i<5;i++){
+for(let i=0;i<ticks;i++){
  const start=Date.now();
+ if(i%5===0)scanSaved=false;
  try{
   const headers=await credentials();
   const collection=await request('/api/logging/collect',headers,'POST');
@@ -25,6 +27,6 @@ for(let i=0;i<5;i++){
   if(scan)scanSaved=true;
   console.log(JSON.stringify({at:new Date().toISOString(),tick:i+1,collection,savedSnapshots:scan?.logging?.snapshots??0}));
  }catch(e){failed++;console.error(JSON.stringify({at:new Date().toISOString(),tick:i+1,error:e.message}));if(e.status===401||e.status===403)break;}
- if(i<4)await sleep(Math.max(0,60000-(Date.now()-start)));
+ if(i<ticks-1)await sleep(Math.max(0,60000-(Date.now()-start)));
 }
 if(failed)process.exitCode=1;
