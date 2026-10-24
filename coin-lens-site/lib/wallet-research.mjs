@@ -1,0 +1,17 @@
+export const researchReviewDate='2026-10-19';
+const nansen={publisher:'Nansen',date:'2025-04-14',url:'https://nansen.ai/post/how-to-use-nansen-to-find-profitable-solana-wallet-addresses'};
+const lookonchain={publisher:'Lookonchain',date:'2025-04-17',url:'https://lookonchain.com/articles/1063'};
+export const researchWallets=[
+ {address:'HWdeCUjBvPP1HJ5oCJt7aNsvMWpWoDgiejUWvfFX6T7R',label:'HWde · historical meme trader',state:'Historical lead',reason:'Nansen listed this address as a multi-memecoin whale with reported realized gains. This is dated research, not a current performance certification.',sources:[nansen],gaps:['Current 30/90-day realized performance','Drawdown and profit concentration','Public identity and promotion behavior'],decision:'Research only. No current profitability or follower-safety finding.'},
+ {address:'fwHknyxZTgFGytVz9VPrvWqipW2V4L4D99gEb831t81',label:'fwHk · historical AI-token trader',state:'Historical lead',reason:'Nansen included this address in an AI16Z profit-leaderboard example. That establishes a published historical lead, not continued success.',sources:[nansen],gaps:['Recent trading and realized performance','Whether results rely on one token','Wallet ownership and follower impact'],decision:'Research only. Historical leaderboard placement does not qualify it for copying.'},
+ {address:'GmM5UFm8xu6TnZD7avwYcQ1zq25hD5yvHfYyAksHu9vB',label:'GmM5 · historical multi-token case',state:'Historical lead',reason:'Lookonchain reported realized gains across PNUT, HIMA, ProjectSid and RIPETH over a short period. The older report does not establish present profitability.',sources:[lookonchain],gaps:['Full winning and losing trade history','Recent realized results after fees','Early allocation and linked-wallet checks'],decision:'Research only. A short successful period is not evidence of a durable edge.'},
+ {address:'4EtAJ1p8RjqccEVhEhaYnEgQ6kA4JHR8oYqyLFwARUj6',label:'4EtA · unresolved performance evidence',state:'Hold for review',reason:'Nansen reported historical realized gains; an OKX page retrieved during this review displayed negative total and unrealized PnL. The periods and accounting bases were not reconciled, so the figures cannot be treated as directly comparable.',sources:[nansen,{publisher:'OKX Wallet',date:null,url:'https://web3.okx.com/portfolio/4EtAJ1p8RjqccEVhEhaYnEgQ6kA4JHR8oYqyLFwARUj6'}],gaps:['Reconcile dates, cost basis and transfers','Separate realized and paper results','Verify current activity and full history'],decision:'Do not promote to a copy-trading shortlist without reconciling the evidence.'}
+];
+export const qualificationChecks=[
+ {name:'Recent profitability',detail:'Positive realized results over defined recent windows, with fees and transfers accounted for.'},
+ {name:'Repeatability',detail:'Multiple closed positions across different tokens and dates; show how much profit comes from the single best trade.'},
+ {name:'Loss behavior',detail:'Review losing positions, drawdowns, holding times and leverage; do not hide failed tokens.'},
+ {name:'Public promotion timing',detail:'Verify wallet-to-poster attribution and compare actual swap sales with dated public posts.'},
+ {name:'Allocation and wallet links',detail:'Investigate team allocations, funding links and transfers; a shared funder alone is not proof of insider coordination.'},
+ {name:'Copy feasibility',detail:'Check executable liquidity, timing, fees and position size. The original trader’s entry is not your available entry.'}
+];

@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1792430657308,
+      "tag": "0000_moaning_kulan_gath",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792640358122,
+      "tag": "0001_lethal_speed",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792684211254,
+      "tag": "0002_next_korg",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1792693600133,
+      "tag": "0003_neat_warbird",
+      "breakpoints": true
+    }
+  ]
+}
