@@ -1,0 +1,9 @@
+{
+  "measuredAt": "2026-10-22T03:44:11.322Z",
+  "sample": "10 recent stored collector snapshots; selection diagnostics only",
+  "records": 10,
+  "oldGatePasses": 0,
+  "weightedAlerts": 0,
+  "meanFeatureCoverage": 0.19,
+  "performance": "Not evaluated; fewer than 200 usable mature token outcomes"
+}
