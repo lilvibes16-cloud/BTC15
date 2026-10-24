@@ -1,0 +1,9 @@
+export const finite=v=>typeof v==='number'&&Number.isFinite(v);
+export function money(v){if(!finite(v))return 'Unavailable';return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',notation:'compact',maximumFractionDigits:2}).format(v)}
+export function price(v){if(!finite(v))return 'Unavailable';return '$'+new Intl.NumberFormat('en-US',{maximumSignificantDigits:5}).format(v)}
+export function change(v){return finite(v)?`${v>0?'+':''}${v.toFixed(2)}%`:'Unavailable'}
+export function age(at,now){if(!finite(at)||at<=0||at>now)return 'Unavailable';const m=Math.floor((now-at)/60000);return m<60?`${m}m`:m<1440?`${Math.floor(m/60)}h`:`${Math.floor(m/1440)}d`}
+export function selectCoins(coins,filter,saved){const field=filter==='New'?'created':filter==='Volume'?'volume':'change';return [...coins].filter(c=>filter!=='Watchlist'||saved.includes(c.address)).sort((a,b)=>{const x=a[field],y=b[field];if(!finite(x))return finite(y)?1:0;if(!finite(y))return -1;return y-x||a.address.localeCompare(b.address)})}
+export function addPoint(points,coin,at){if(!finite(coin?.price)||coin.price<0||!finite(at))return points;const key=coin.address+':'+coin.pairAddress;const rows=points[key]||[];if(rows.some(p=>p.at===at)||rows.length&&at<rows[rows.length-1].at)return points;return {...points,[key]:[...rows,{at,price:coin.price}].slice(-120)}}
+export function measuredShare(report,group){if(!report?.launch?.verified||!group?.wallets?.length||group.knownWallets<1||!finite(group.totalPct)||group.status==='inconsistent')return null;return group.totalPct;}
+export function freshness(data,error,now){const at=Date.parse(data?.fetchedAt);if(!Number.isFinite(at))return {state:error?'Offline':'Connecting',seconds:null,stale:true};const seconds=Math.max(0,Math.floor((now-at)/1000));return {state:error||data.stale||seconds>120?'Stale':'Updated',seconds,stale:Boolean(error)||Boolean(data.stale)||seconds>120};}
